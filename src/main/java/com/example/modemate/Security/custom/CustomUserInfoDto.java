@@ -13,4 +13,6 @@ public class CustomUserInfoDto {
     private String email;
 
     private String password;
+
+    private String nickname;
 }

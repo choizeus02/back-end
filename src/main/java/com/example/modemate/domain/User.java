@@ -16,9 +16,11 @@ public class User {
     private Long id;
     private String email;
     private String password;
+    private String nickname;
 
-    public User(String email, String password){
+    public User(String email, String password, String nickname){
         this.email = email;
         this.password = password;
+        this.nickname = nickname;
     }
 }
