@@ -47,6 +47,7 @@ public class JwtUtil {
         Claims claims = Jwts.claims();
         claims.put("userId", user.getUserId());
         claims.put("email", user.getEmail());
+        claims.put("nickname", user.getNickname());
 
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime tokenValidity = now.plusSeconds(expireTime);
@@ -62,11 +63,31 @@ public class JwtUtil {
     /**
      * Token에서 User ID 추출
      * @param token
+     * @return Id
+     */
+    public Long getUserId(String token) {
+        return parseClaims(token).get("id", Long.class);
+    }
+
+
+    /**
+     * Token에서 User ID 추출
+     * @param token
      * @return email
      */
     public String getUserEmail(String token) {
         return parseClaims(token).get("email", String.class);
     }
+
+    /**
+     * Token에서 User ID 추출
+     * @param token
+     * @return nickname
+     */
+    public String getUserNickname(String token) {
+        return parseClaims(token).get("nickname", String.class);
+    }
+
 
 
     /**
