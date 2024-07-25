@@ -53,7 +53,7 @@ public class UserController {
     })
     public String register(@RequestBody UserDTO dto) {
         userService.register(dto);
-        return userService.login(new UserDTO(dto.getEmail(), dto.getPassword()));
+        return userService.login(new UserDTO(dto.getEmail(), dto.getPassword(), dto.getNickname()));
     }
 
 }

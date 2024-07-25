@@ -14,8 +14,6 @@ import java.util.Optional;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     Optional<ChatRoom> findByUserAndOpponentUser(User user, User opponentUser);
 
-    ChatRoom findById(String id);
-
     //    @Query("select cr from ChatRoom cr where cr.roomId = : roomId")
     ChatRoom findByRoomId(@Param("roomId") String roomId);
 
@@ -23,7 +21,6 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     List<ChatRoom> findByUserOrOpponentUser(@Param("user") Long user);
 
     @Modifying
-    @Query("delete from ChatRoom cr " +
-            "where cr.user.id = :id or cr.opponentUser = :id")
+    @Query(value = "delete from ChatRoom cr where cr.user_id = :id or cr.opponent_user = :id", nativeQuery = true)
     void deleteByUserOrOpponentuser(@Param("id") Long id);
 }

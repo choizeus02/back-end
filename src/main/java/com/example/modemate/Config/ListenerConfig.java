@@ -1,5 +1,6 @@
 package com.example.modemate.Config;
 
+import com.example.modemate.DTO.ChatMessage;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
