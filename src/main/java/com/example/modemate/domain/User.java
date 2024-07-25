@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -16,6 +19,8 @@ public class User {
     private String password;
     private String nickname;
 
+    @OneToMany(mappedBy = "user")
+    private List<Diary> diary = new ArrayList<>();
     public User(String email, String password, String nickname){
         this.email = email;
         this.password = password;
