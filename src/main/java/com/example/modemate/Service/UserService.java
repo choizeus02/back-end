@@ -19,7 +19,7 @@ public class UserService {
 
     @Transactional
     public void register(UserDTO userDTO) {
-        User user = new User(userDTO.getEmail(), encoder.encode(userDTO.getPassword()));
+        User user = new User(userDTO.getEmail(), encoder.encode(userDTO.getPassword()), userDTO.getNickname());
         userRepository.save(user);
     }
     public String login(UserDTO userDTO) {
@@ -34,7 +34,7 @@ public class UserService {
             return "password error";
         }
 
-        CustomUserInfoDto customUserInfoDto = new CustomUserInfoDto(user.getId(), user.getEmail(), user.getPassword());
+        CustomUserInfoDto customUserInfoDto = new CustomUserInfoDto(user.getId(), user.getEmail(), user.getPassword(), user.getNickname());
         return jwtUtil.createAccessToken(customUserInfoDto);
     }
 }

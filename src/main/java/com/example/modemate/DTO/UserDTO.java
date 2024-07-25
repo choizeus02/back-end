@@ -11,8 +11,11 @@ public class UserDTO {
 
     private String password;
 
-    public UserDTO(String email, String password){
+    private String nickname;
+
+    public UserDTO(String email, String password, String nickname){
         this.email = email;
         this.password = password;
+        this.nickname = nickname;
     }
 }
