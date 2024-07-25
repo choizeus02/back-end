@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/moodmate
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: root
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  kafka: #kafka??
+    bootstrap-servers: localhost:9092   #kafka ????
+    consumer:
+      group-id: consumerGroup1
+      enable-auto-commit: true
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      max-poll-records: 1000
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    template:
+      default-topic: kafkaTest
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+
+jwt:
+  secret: " asdfasdfqwehjafsdjkasfdasdfasdfasdfasfdasdfasfdasdfasdfadsf"
+  expiration_time: 180
