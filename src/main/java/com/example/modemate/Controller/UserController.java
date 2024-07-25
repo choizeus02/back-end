@@ -50,6 +50,7 @@ public class UserController {
     @Parameters({
             @Parameter(name = "email", description = "아이디(이메일)", example = "user2@naver.com"),
             @Parameter(name = "password", description = "비밀번호", example = "1234"),
+            @Parameter(name = "nickname", description = "닉네임", example = "test1"),
     })
     public String register(@RequestBody UserDTO dto) {
         userService.register(dto);
