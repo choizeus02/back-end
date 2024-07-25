@@ -66,7 +66,7 @@ public class JwtUtil {
      * @return Id
      */
     public Long getUserId(String token) {
-        return parseClaims(token).get("id", Long.class);
+        return parseClaims(token).get("userId", Long.class);
     }
 
 

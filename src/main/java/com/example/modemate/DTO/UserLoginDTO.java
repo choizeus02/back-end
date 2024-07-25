@@ -1,21 +1,23 @@
 package com.example.modemate.DTO;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserDTO {
+public class UserLoginDTO {
 
     private String email;
 
     private String password;
 
-    private String nickname;
 
-    public UserDTO(String email, String password, String nickname){
+    public UserLoginDTO(String email, String password) {
         this.email = email;
         this.password = password;
-        this.nickname = nickname;
     }
+
 }
