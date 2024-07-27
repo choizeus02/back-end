@@ -19,6 +19,7 @@ public class DiaryService {
     private final UserRepository userRepository;
     private final DiaryRepository diaryRepository;
 
+    @Transactional
     public void saveDiary(String userName, String analyze, DiaryDTO diaryDTO){
         User user = userRepository.findByNicknameOne(userName);
         diaryDTO.setAnalyze(analyze);
