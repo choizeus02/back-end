@@ -36,6 +36,7 @@ public class DiaryController {
         ResponseEntity<String> response = restTemplate.exchange(flaskServiceUrl, HttpMethod.POST, requestEntity, String.class);
 
         String analyze = response.getBody();
+        System.out.println(analyze);
         diaryService.saveDiary(userDetails.getUsername(), analyze, diaryDTO);
         return analyze;
 

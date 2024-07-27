@@ -15,6 +15,7 @@ import java.util.List;
 public class Diary {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String month;
@@ -23,7 +24,7 @@ public class Diary {
 
     private String content;
 
-    private String analyze;
+    private String ana;
 
     @ElementCollection
     @CollectionTable(name = "emotion", joinColumns =
@@ -39,7 +40,7 @@ public class Diary {
         this.month = month;
         this.time = time;
         this.content = content;
-        this.analyze = analyze;
+        this.ana = analyze;
         this.emotion = emotion;
         this.user = user;
     }

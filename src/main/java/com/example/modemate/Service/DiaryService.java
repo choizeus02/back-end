@@ -35,7 +35,7 @@ public class DiaryService {
                         diary.getMonth(),
                         diary.getTime(),
                         diary.getContent(),
-                        diary.getAnalyze(),
+                        diary.getAna(),
                         diary.getEmotion()
                 ))
                 .collect(Collectors.toList());
