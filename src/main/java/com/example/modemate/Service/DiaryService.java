@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,14 +19,25 @@ public class DiaryService {
     private final UserRepository userRepository;
     private final DiaryRepository diaryRepository;
 
-    public void saveDiary(String userName, DiaryDTO diaryDTO){
+    public void saveDiary(String userName, String analyze, DiaryDTO diaryDTO){
         User user = userRepository.findByNicknameOne(userName);
-        Diary diary = new Diary(diaryDTO.getMonth(), diaryDTO.getDate(), diaryDTO.getContent(), diaryDTO.getAnalyze(), diaryDTO.getEmotion(), user);
+        diaryDTO.setAnalyze(analyze);
+        Diary diary = new Diary(diaryDTO.getMonth(), diaryDTO.getTime(), diaryDTO.getContent(), diaryDTO.getAnalyze(), diaryDTO.getEmotion(), user);
         diaryRepository.save(diary);
     }
 
-    public List<Diary> findAllDiaryByNickname(Long userId){
+    public List<DiaryDTO> findAllDiaryByNickname(Long userId){
         List<Diary> diaryList = diaryRepository.findAllById(userId);
-        return diaryList;
+        List<DiaryDTO> diaryDTOList = diaryList
+                .stream()
+                .map(diary -> new DiaryDTO(
+                        diary.getMonth(),
+                        diary.getTime(),
+                        diary.getContent(),
+                        diary.getAnalyze(),
+                        diary.getEmotion()
+                ))
+                .collect(Collectors.toList());
+        return diaryDTOList;
     }
 }

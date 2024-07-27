@@ -19,12 +19,17 @@ import java.util.List;
 @NoArgsConstructor
 public class DiaryDTO {
     private String month;
-
-    private String date;
-
+    private String time;
     private String content;
-
     private String analyze;
+    private List<String> emotion;
 
-    private List<String> emotion = new ArrayList<>();
+    public DiaryDTO(String month, String time, String content, String analyze, List<String> emotion) {
+        this.month = month;
+        this.time = time;
+        this.content = content;
+        this.analyze = analyze;
+        this.emotion = emotion;
+    }
+
 }
