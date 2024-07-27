@@ -26,6 +26,9 @@ public class Diary {
     private String analyze;
 
     @ElementCollection
+    @CollectionTable(name = "emotion", joinColumns =
+    @JoinColumn(name = "diary_id")
+    )
     private List<String> emotion = new ArrayList<>();
 
     @ManyToOne

@@ -21,7 +21,7 @@ public class DiaryService {
 
     @Transactional
     public void saveDiary(String userName, String analyze, DiaryDTO diaryDTO){
-        User user = userRepository.findByNicknameOne(userName);
+        User user = userRepository.findByNickname1(userName);
         diaryDTO.setAnalyze(analyze);
         Diary diary = new Diary(diaryDTO.getMonth(), diaryDTO.getTime(), diaryDTO.getContent(), diaryDTO.getAnalyze(), diaryDTO.getEmotion(), user);
         diaryRepository.save(diary);
