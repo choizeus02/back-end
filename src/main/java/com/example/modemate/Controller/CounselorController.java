@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,7 +61,6 @@ public class CounselorController {
             throws IOException {
 
         log.info("[Counselor Controller] register");
-
 
         Counselor counselor = counselorService.createCounselor(requestDTO);
 
@@ -145,6 +145,7 @@ public class CounselorController {
                 counselor.getComment(),
                 counselor.getProfile(),
                 counselor.getCategory(),
+                counselor.getImgUrl(),
                 programDto
         );
 
@@ -166,7 +167,7 @@ public class CounselorController {
         List<Counselor> counselor = counselorService.searchByNameOrCategory(search);
 
         List<CounselorDto> collect = counselor.stream()
-                .map(m -> new CounselorDto(m.getId(),m.getName(),m.getComment(), m.getCategory()))
+                .map(m -> new CounselorDto(m.getId(),m.getName(),m.getComment(), m.getCategory(), m.getImgUrl()))
                 .collect((Collectors.toList()));
 
 
@@ -182,6 +183,7 @@ public class CounselorController {
         private String name;
         private String comment;
         private String category;
+        private String imgUrl;
     }
 
     @Data
@@ -191,6 +193,7 @@ public class CounselorController {
         private String comment;
         private Profile profile;
         private String category;
+        private String imgUrl;
         private List<ProgramDTO> programs;
     }
 

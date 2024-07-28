@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class CounselorService {
 
     private final CounselorRepository counselorRepository;
+
 
 
     @Transactional
@@ -34,6 +36,7 @@ public class CounselorService {
                 .comment(requestDTO.getComment())
                 .category(requestDTO.getCategory())
                 .profile(profile)
+                .imgUrl(requestDTO.getImgUrl())
                 .build();
 
         return counselorRepository.save(counselor);
@@ -72,4 +75,6 @@ public class CounselorService {
 
         return counselorRepository.findByNameOrCategoryContaining(search);
     }
+
+
 }

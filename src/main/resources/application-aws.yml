@@ -1,10 +1,10 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/moodmate
+    url: jdbc:mariadb://choizeus-db.c9oqueg2ur6d.us-east-2.rds.amazonaws.com:3306/moodmate?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul
     username: root
-    password: root
+    password: wodnwodn0212
 
 jwt:
   secret: asdfasdfqwehjafsdjkasfdasdfasdfasdfasfdasdfasfdasdfasdfadsf
-  expiration_time: 10000000
+  expiration_time: 180
