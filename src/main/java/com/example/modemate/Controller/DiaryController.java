@@ -61,6 +61,11 @@ public class DiaryController {
     }
     //일기 데이터 조회
     @GetMapping("/read")
+    @Operation(summary = "일기 쓸때 필요한거", description = "일기에 사용되는 API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "401", description = "실패", content = @Content(mediaType = "application/json"))
+    })
     public List<DiaryDTO> findAllDiary(@AuthenticationPrincipal CustomUserDetails userDetails){
         List<DiaryDTO> diaryList = diaryService.findAllDiaryByNickname(userDetails.getUserId());
         return diaryList;
