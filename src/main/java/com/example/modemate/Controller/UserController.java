@@ -43,16 +43,18 @@ public class UserController {
             @Parameter(name = "email", description = "아이디(이메일)", example = "test@naver.com"),
             @Parameter(name = "password", description = "비밀번호", example = "1234"),
     })
-    public ResponseEntity<String> login(@RequestBody UserLoginDTO userDTO) {
+    public ResponseEntity<TokenDTO> login(@RequestBody UserLoginDTO userDTO) {
 
         log.info("[User Controller] login");
-        String status = userService.login(userDTO);
+        String token = userService.login(userDTO);
 
-        if(status.equals("user not found") || status.equals("password error")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(status);
+        if ("user not found".equals(token) || "password error".equals(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        TokenDTO tokenResponse = new TokenDTO(token);
 
-        return ResponseEntity.status(HttpStatus.OK).body(status);
+
+        return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
     }
 
 
@@ -80,7 +82,7 @@ public class UserController {
         TokenDTO tokenResponse = new TokenDTO(token);
 
 
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
     }
 
     @GetMapping("/findNickname")
