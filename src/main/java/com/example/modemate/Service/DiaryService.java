@@ -28,7 +28,7 @@ public class DiaryService {
     }
 
     public List<DiaryDTO> findAllDiaryByNickname(Long userId){
-        List<Diary> diaryList = diaryRepository.findAllById(userId);
+        List<Diary> diaryList = diaryRepository.findByUserId(userId);
         List<DiaryDTO> diaryDTOList = diaryList
                 .stream()
                 .map(diary -> new DiaryDTO(

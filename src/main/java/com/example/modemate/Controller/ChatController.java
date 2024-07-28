@@ -74,7 +74,7 @@ public class ChatController {
             @ApiResponse(responseCode = "401", description = "실패", content = @Content(mediaType = "application/json"))
     })
     @Parameters({
-            @Parameter(name = "roomId", description = "아이디(이메일)", example = "test@naver.com"),
+            @Parameter(name = "roomId", description = "방 번호", example = "dkejrkdasuyf456"),
     })
     public ChatRoomDetailDTO findRoom(@RequestParam String roomId,
                                       @AuthenticationPrincipal CustomUserDetails userDetails){

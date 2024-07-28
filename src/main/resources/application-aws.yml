@@ -7,4 +7,4 @@ spring:
 
 jwt:
   secret: asdfasdfqwehjafsdjkasfdasdfasdfasdfasfdasdfasfdasdfasdfadsf
-  expiration_time: 180
+  expiration_time: 10000000
