@@ -20,12 +20,15 @@ public class CounselorRegisterRequestDTO {
 
     private String category;
 
+    private String imgUrl;
+
 
     @Builder
-    public CounselorRegisterRequestDTO(String name, String comment, Profile profile, String category) {
+    public CounselorRegisterRequestDTO(String name, String comment, Profile profile, String category, String imgUrl) {
         this.name = name;
         this.comment = comment;
         this.profile = profile;
         this.category = category;
+        this.imgUrl = imgUrl;
     }
 }

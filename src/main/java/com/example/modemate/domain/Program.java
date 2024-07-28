@@ -4,6 +4,7 @@ package com.example.modemate.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,8 @@ public class Program {
 
     private String place;
 
-    private String details;
+    @ElementCollection
+    private List<Details> details = new ArrayList<>();
 
     private float rating;
 
@@ -45,7 +47,7 @@ public class Program {
     private List<User> users;
 
     @Builder
-    public Program(Long id, String name, Counselor counselor, String time, String place, String details, float rating, List<KeyWord> keyWord, List<Review> reviews, List<User> users) {
+    public Program(Long id, String name, Counselor counselor, String time, String place, List<Details> details, float rating, List<KeyWord> keyWord, List<Review> reviews, List<User> users) {
         this.id = id;
         this.name = name;
         this.counselor = counselor;

@@ -5,15 +5,13 @@ import com.example.modemate.Repository.ProgramRepository;
 import com.example.modemate.Repository.UserRepository;
 import com.example.modemate.Security.jwt.JwtUtil;
 import com.example.modemate.Service.ProgramService;
-import com.example.modemate.domain.KeyWord;
-import com.example.modemate.domain.Program;
-import com.example.modemate.domain.Review;
-import com.example.modemate.domain.User;
+import com.example.modemate.domain.*;
 import com.example.modemate.enumration.ReviewType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -47,7 +45,7 @@ public class ProgramController {
             @Parameter(name = "counselor_id", description = "상담사 Id", example = "1"),
             @Parameter(name = "time", description = "시간", example = "7/30일 오후 2시"),
             @Parameter(name = "place", description = "장소", example = "한누리관 718호"),
-            @Parameter(name = "details", description = "소개", example = "프로그램 설명들 ~!@~!"),
+            @Parameter(name = "details", description = "프로그램 세부사항", examples = @ExampleObject(value = "[{\"title\": \"소개\", \"time\": \"매주 (수) 20:00-22:00\", \"content\": \"이 프로그램은...\"]")),
             @Parameter(name = "keyWord", description = "프로그램 키워드", example = "그림, 명상, 스트레스 관리, 긍정 에너지, 관계 회복, 자기이해, 불안관리, 우울증 극복, 트라우마 치료, 감정 조절, 불면증 극복, 자아성찰, 대인관계, "),
     })
     public String enroll(@Valid @RequestBody ProgramEnrollRequestDTO requestDTO)
@@ -158,7 +156,7 @@ public class ProgramController {
         private String time;
         private String place;
         private float rating;
-        private String details;
+        private List<Details> details;
         private List<ReviewDTO> reviews;
     }
 

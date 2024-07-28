@@ -14,12 +14,12 @@ public class DataInit {
     private final PasswordEncoder encoder;
     private final UserRepository userRepository;
 
-    @PostConstruct
-    public void init() {
-        User user1 = new User("test@naver.com", encoder.encode("1234"), "test1");
-        User user = new User("test0@naver.com", encoder.encode("1234"), "test2");
-
-        userRepository.save(user1);
-        userRepository.save(user);
-    }
+//    @PostConstruct
+//    public void init() {
+//        User user1 = new User("test@naver.com", encoder.encode("1234"), "test1");
+//        User user = new User("test0@naver.com", encoder.encode("1234"), "test2");
+//
+//        userRepository.save(user1);
+//        userRepository.save(user);
+//    }
 }

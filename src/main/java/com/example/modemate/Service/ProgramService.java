@@ -6,10 +6,7 @@ import com.example.modemate.DTO.ProgramEnrollRequestDTO;
 import com.example.modemate.Repository.CounselorRepository;
 import com.example.modemate.Repository.KeyWordRepository;
 import com.example.modemate.Repository.ProgramRepository;
-import com.example.modemate.domain.Counselor;
-import com.example.modemate.domain.KeyWord;
-import com.example.modemate.domain.Program;
-import com.example.modemate.domain.Review;
+import com.example.modemate.domain.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,12 +50,14 @@ public class ProgramService {
         Counselor counselor = counselorRepository.findById(requestDTO.getCounselor_id())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid counselor ID"));
 
+        List<Details> details = requestDTO.getDetails();
+
         Program program = Program.builder()
                 .name(requestDTO.getName())
                 .counselor(counselor)
                 .time(requestDTO.getTime())
                 .place(requestDTO.getPlace())
-                .details(requestDTO.getDetails())
+                .details(details)
                 .build();
 
 
