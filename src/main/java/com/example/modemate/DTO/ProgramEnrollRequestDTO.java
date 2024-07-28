@@ -1,10 +1,13 @@
 package com.example.modemate.DTO;
 
+import com.example.modemate.domain.Details;
 import com.example.modemate.domain.KeyWord;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +22,7 @@ public class ProgramEnrollRequestDTO {
 
     private String place;
 
-    private String details;
+    private List<Details> details;
 
     private KeyWord keyWord;
 
