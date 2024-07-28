@@ -1,21 +1,25 @@
 package com.example.modemate.Controller;
 
+import com.example.modemate.DTO.TokenDTO;
 import com.example.modemate.DTO.UserLoginDTO;
 import com.example.modemate.DTO.UserRegisterDTO;
+import com.example.modemate.Repository.UserRepository;
 import com.example.modemate.Service.UserService;
+import com.example.modemate.domain.Program;
+import com.example.modemate.domain.User;
+import com.example.modemate.Security.jwt.JwtUtil;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/login")
     @Operation(summary = "회원 로그인 기능", description = "이메일(email), 패스워드로(password)를 이용하여 로그인 시도")
@@ -65,12 +71,48 @@ public class UserController {
             @Parameter(name = "nickname", description = "별칭", example = "수몽이"),
             @Parameter(name = "password", description = "비밀번호", example = "1234"),
     })
-    public String register(@RequestBody UserRegisterDTO dto) {
+    public ResponseEntity<TokenDTO>  register(@RequestBody UserRegisterDTO dto) {
         log.info("[User Controller] register");
 
         userService.register(dto);
 
-        return userService.login(new UserLoginDTO(dto.getEmail(), dto.getPassword()));
+        String token = userService.login(new UserLoginDTO(dto.getEmail(), dto.getPassword()));
+        TokenDTO tokenResponse = new TokenDTO(token);
+
+
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+    @GetMapping("/findNickname")
+    @Operation(summary = "User의 nickname 조회 기능", description = "User관련 API // header에 jwt 토큰 전송 필요")
+    @ApiResponse(responseCode = "200", description = "닉네임 조회 성공", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<NicknameDto> add(@RequestHeader("Authorization") String token) {
+
+        log.info("[User Controller] find nickname");
+
+        String jwt = token.substring(7);
+
+        Long userId = jwtUtil.getUserId(jwt);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        NicknameDto nicknameDto = new NicknameDto(user.getNickname());
+
+
+        return ResponseEntity.ok(nicknameDto);
+
+    }
+
+
+    @Data
+    public class NicknameDto {
+        private String nickname;
+
+        @JsonCreator
+        public NicknameDto(String nickname) {
+            this.nickname = nickname;
+        }
     }
 
 }
