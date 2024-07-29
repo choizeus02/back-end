@@ -7,9 +7,11 @@ import com.example.modemate.DTO.ChatRoomDTO;
 import com.example.modemate.DTO.ChatRoomDetailDTO;
 import com.example.modemate.Repository.ChatHistoryRepository;
 import com.example.modemate.Repository.ChatRoomRepository;
+import com.example.modemate.Repository.CounselorRepository;
 import com.example.modemate.Repository.UserRepository;
 import com.example.modemate.domain.ChatHistory;
 import com.example.modemate.domain.ChatRoom;
+import com.example.modemate.domain.Counselor;
 import com.example.modemate.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,11 +30,12 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository memberRepository;
     private final ChatHistoryRepository chatHistoryRepository;
+    private final CounselorRepository counselorRepository;
 
     @Transactional
     public String createChatRoom(String myNickName, String yourNickName) {
         User user = getUserByNickname(myNickName); //User에서 찾아야 하는거고
-        User opponentUser = getUserByNickname(yourNickName); //Coordinator에서 찾아야 하는거고
+        Counselor opponentUser = counselorRepository.findByName(yourNickName); //Coordinator에서 찾아야 하는거고
 
         Optional<ChatRoom> chatRoom = findChatRoom(user, opponentUser);
         ChatRoom result;
@@ -62,13 +65,13 @@ public class ChatService {
         return id;
     }
     @Transactional
-    public ChatRoom create(User user, User opponentUser) {
+    public ChatRoom create(User user, Counselor opponentUser) {
         ChatRoom chatRoom = new ChatRoom(UUID.randomUUID().toString(), user, opponentUser);
         return chatRoom;
     }
 
 
-    private Optional<ChatRoom> findChatRoom(User user, User opponentUser) {
+    private Optional<ChatRoom> findChatRoom(User user, Counselor opponentUser) {
         return chatRoomRepository.findByUserAndOpponentUser(user, opponentUser);
     }
 
@@ -96,7 +99,7 @@ public class ChatService {
                         chatRoom1.getRoomId(),
                         user.getNickname(),
                         chatRoom1.getUser().getNickname().equals(nickname)  ?
-                                chatRoom1.getOpponentUser().getNickname() : chatRoom1.getUser().getNickname() ,
+                                chatRoom1.getOpponentUser().getName() : chatRoom1.getUser().getNickname() ,
                         chatRoom1.getHistories().stream().map(
                                 chatHistory -> new ChatHistoryResponse(
                                         chatHistory.getSender().getNickname(),
@@ -109,18 +112,18 @@ public class ChatService {
         return chatRoomRepository.findAll();
     }
 
+    //채팅을 양쪽에서 보낼 수 있으니까 둘다 확인해야하지만 이건 상담사는 채팅방을 만들지 못함.
     public ChatRoomDetailDTO findRoom(String roomId, String nickname, Long userId){
         // 채팅방 들어갈 때 readCount 벌크 연산
         int count = chatHistoryRepository.bulkReadCount(userId);
 
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
-
         User user = chatRoom.getUser();
-        User opponentUser = !user.getNickname().equals(nickname) ? user : chatRoom.getOpponentUser();
+        Counselor opponentUser = chatRoom.getOpponentUser();
 
         return new ChatRoomDetailDTO(chatRoom.getRoomId(),
                 nickname,
-                opponentUser.getNickname(),
+                opponentUser.getName(),
                 chatRoom.getHistories()
                         .stream()
                         .map(chatHistory ->
@@ -129,7 +132,6 @@ public class ChatService {
                                         chatHistory.getReadCount(),
                                         chatHistory.getMessage(),
                                         chatHistory.getCreatedAt())).toList());
-
     }
 
     @Transactional

@@ -18,7 +18,7 @@ public class ChatRoom{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public ChatRoom(String roomId, User user, User opponentUser) {
+    public ChatRoom(String roomId, User user, Counselor opponentUser) {
         this.roomId = roomId;
         this.user = user;
         this.opponentUser = opponentUser;
@@ -32,7 +32,7 @@ public class ChatRoom{
 
     @ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "opponent_user_id")
-    private User opponentUser;
+    private Counselor opponentUser;
 
     @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
     private List<ChatHistory> histories = new ArrayList<>();

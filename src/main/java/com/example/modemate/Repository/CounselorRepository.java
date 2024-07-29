@@ -11,4 +11,6 @@ public interface CounselorRepository extends JpaRepository<Counselor, Long> {
 
     @Query("SELECT c FROM Counselor c WHERE c.name LIKE %:query% OR c.category LIKE %:query%")
     List<Counselor> findByNameOrCategoryContaining(@Param("query") String query);
+
+    Counselor findByName(@Param("name") String name);
 }

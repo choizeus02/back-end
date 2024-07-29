@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Counselor {
 
     @Id

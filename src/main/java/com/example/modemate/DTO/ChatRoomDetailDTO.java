@@ -2,10 +2,12 @@ package com.example.modemate.DTO;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class ChatRoomDetailDTO {
     private String roomId;
 
