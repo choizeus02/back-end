@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/diary")
 @RequiredArgsConstructor
+@Slf4j
 public class DiaryController {
 
     private final DiaryService diaryService;
@@ -42,6 +44,9 @@ public class DiaryController {
     })
     public String writeDiary(@AuthenticationPrincipal CustomUserDetails userDetails,
                                              @RequestBody DiaryDTO diaryDTO){
+
+        log.info("[Diary Controller] write");
+
         String flaskServiceUrl = "http://localhost:5000/tokenize";
 
         HttpHeaders headers = new HttpHeaders();
@@ -67,7 +72,11 @@ public class DiaryController {
             @ApiResponse(responseCode = "401", description = "실패", content = @Content(mediaType = "application/json"))
     })
     public List<DiaryDTO> findAllDiary(@AuthenticationPrincipal CustomUserDetails userDetails){
+
+        log.info("[Diary Controller] read");
+
         List<DiaryDTO> diaryList = diaryService.findAllDiaryByNickname(userDetails.getUserId());
+
         return diaryList;
     }
 
