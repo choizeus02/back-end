@@ -8,4 +8,4 @@ spring:
 
 jwt:
   secret: ${JWT_KEY}
-  expiration_time: 180
+  expiration_time: 3600
