@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +22,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/chat")
 @RequiredArgsConstructor
+@Slf4j
 public class ChatController {
 
     private final ChatService chatService;
-    private final JwtUtil util;
 
     //방만들기
     @GetMapping("/room")
@@ -38,6 +39,9 @@ public class ChatController {
     })
     public String createRoom(@RequestParam String yournickname,
                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        log.info("[Chat Controller] create room");
+
         System.out.print(userDetails.getUsername());
         return chatService.createChatRoom(userDetails.getUsername(), yournickname);
     }
@@ -49,6 +53,9 @@ public class ChatController {
             @ApiResponse(responseCode = "401", description = "방 만들기 실패", content = @Content(mediaType = "application/json"))
     })
     public List<ChatRoomDTO> getChatRooms(@AuthenticationPrincipal CustomUserDetails userDetails){
+
+        log.info("[Chat Controller] main");
+
         System.out.println(userDetails.getUsername());
         List<ChatRoomDTO> chatingRooms = chatService.getChatingRooms(userDetails.getUsername());
         for (ChatRoomDTO chatingRoom : chatingRooms) {
@@ -64,6 +71,9 @@ public class ChatController {
             @ApiResponse(responseCode = "401", description = "실패", content = @Content(mediaType = "application/json"))
     })
     public List<ChatRoom> getAllRooms(){
+
+        log.info("[Chat Controller] get all rooms");
+
         return chatService.getAllRooms();
     }
 
@@ -78,6 +88,9 @@ public class ChatController {
     })
     public ChatRoomDetailDTO findRoom(@RequestParam String roomId,
                                       @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        log.info("[Chat Controller] find room");
+
         String nickname = userDetails.getUsername();
         Long userId = userDetails.getUserId();
         return chatService.findRoom(roomId, nickname, userId);
