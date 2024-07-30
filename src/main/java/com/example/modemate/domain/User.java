@@ -23,7 +23,6 @@ public class User {
 
     private String nickname;
 
-
     private String password;
 
     @ManyToOne
@@ -32,6 +31,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Diary> diary = new ArrayList<>();
+
+    private Long counselorId;
   
     public User(String email, String nickname, String password) {
         this.email = email;
