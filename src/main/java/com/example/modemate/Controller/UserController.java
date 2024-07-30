@@ -99,7 +99,7 @@ public class UserController {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        NicknameDto nicknameDto = new NicknameDto(user.getNickname());
+        NicknameDto nicknameDto = new NicknameDto(user.getNickname(),user.getCounselorId());
 
 
         return ResponseEntity.ok(nicknameDto);
@@ -110,10 +110,11 @@ public class UserController {
     @Data
     public class NicknameDto {
         private String nickname;
+        private Long counselorId;
 
-        @JsonCreator
-        public NicknameDto(String nickname) {
+        public NicknameDto(String nickname, Long counselorId) {
             this.nickname = nickname;
+            this.counselorId = counselorId;
         }
     }
 
