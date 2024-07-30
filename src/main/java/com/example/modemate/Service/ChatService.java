@@ -36,11 +36,8 @@ public class ChatService {
 
     @Transactional
     public String createChatRoom(String myNickName, String yourNickName) {
-
-        log.info("[Chat Service] create room");
-
         User user = getUserByNickname(myNickName); //User에서 찾아야 하는거고
-        Counselor opponentUser = counselorRepository.findByName(yourNickName); //Coordinator에서 찾아야 하는거고
+        User opponentUser = getUserByNickname(yourNickName); //Coordinator에서 찾아야 하는거고
 
         Optional<ChatRoom> chatRoom = findChatRoom(user, opponentUser);
         ChatRoom result;
@@ -56,9 +53,6 @@ public class ChatService {
     }
 
     public Long saveMessage(ChatMessage message) {
-
-        log.info("[Chat Service] save message");
-
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(message.getRoomid());
         User sender = getUserByNickname(message.getUser());
         String _message = message.getContent();
@@ -66,9 +60,6 @@ public class ChatService {
     }
     @Transactional
     public Long saveChatMessage(ChatRoom chatRoom, User sender, String message, LocalDateTime createdAt) {
-
-        log.info("[Chat Service] save chat message");
-
         ChatHistory chatHistory = ChatHistory.create(chatRoom, sender, message, createdAt);
         chatHistoryRepository.save(chatHistory);
         // 준형
@@ -76,35 +67,23 @@ public class ChatService {
         return id;
     }
     @Transactional
-    public ChatRoom create(User user, Counselor opponentUser) {
-
-        log.info("[Chat Service] create chat room");
-
+    public ChatRoom create(User user, User opponentUser) {
         ChatRoom chatRoom = new ChatRoom(UUID.randomUUID().toString(), user, opponentUser);
         return chatRoom;
     }
 
 
-    private Optional<ChatRoom> findChatRoom(User user, Counselor opponentUser) {
-
-        log.info("[Chat Service] find chat room");
-
+    private Optional<ChatRoom> findChatRoom(User user, User opponentUser) {
         return chatRoomRepository.findByUserAndOpponentUser(user, opponentUser);
     }
 
     public User getUserByNickname(String name) {
-
-        log.info("[Chat Service] get user by nickname");
-
         List<User> members = memberRepository.findByNickname(name);
         return members.isEmpty() ? null : members.get(0);
     }
 
     @Transactional
     public void readChat(Long chatid){
-
-        log.info("[Chat Service] read chat");
-
         ChatHistory chatHistory = chatHistoryRepository.findById(chatid).get();
         if(chatHistory != null){
             System.out.println("chatHistory = " + chatHistory);
@@ -113,9 +92,6 @@ public class ChatService {
     }
 
     public List<ChatRoomDTO> getChatingRooms(String nickname){
-
-        log.info("[Chat Service] get chating room");
-
         User user = getUserByNickname(nickname);
         List<ChatRoom> chatRoom = chatRoomRepository.findByUserOrOpponentUser(user.getId());
 
@@ -125,7 +101,7 @@ public class ChatService {
                         chatRoom1.getRoomId(),
                         user.getNickname(),
                         chatRoom1.getUser().getNickname().equals(nickname)  ?
-                                chatRoom1.getOpponentUser().getName() : chatRoom1.getUser().getNickname() ,
+                                chatRoom1.getOpponentUser().getNickname() : chatRoom1.getUser().getNickname() ,
                         chatRoom1.getHistories().stream().map(
                                 chatHistory -> new ChatHistoryResponse(
                                         chatHistory.getSender().getNickname(),
@@ -135,27 +111,21 @@ public class ChatService {
         return chatRoomDTOs;
     }
     public List<ChatRoom> getAllRooms(){
-
-        log.info("[Chat Service] get all rooms");
-
         return chatRoomRepository.findAll();
     }
 
-    //채팅을 양쪽에서 보낼 수 있으니까 둘다 확인해야하지만 이건 상담사는 채팅방을 만들지 못함.
     public ChatRoomDetailDTO findRoom(String roomId, String nickname, Long userId){
-
-        log.info("[Chat Service] get find room");
-
         // 채팅방 들어갈 때 readCount 벌크 연산
         int count = chatHistoryRepository.bulkReadCount(userId);
 
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId);
+
         User user = chatRoom.getUser();
-        Counselor opponentUser = chatRoom.getOpponentUser();
+        User opponentUser = !user.getNickname().equals(nickname) ? user : chatRoom.getOpponentUser();
 
         return new ChatRoomDetailDTO(chatRoom.getRoomId(),
                 nickname,
-                opponentUser.getName(),
+                opponentUser.getNickname(),
                 chatRoom.getHistories()
                         .stream()
                         .map(chatHistory ->
@@ -164,8 +134,8 @@ public class ChatService {
                                         chatHistory.getReadCount(),
                                         chatHistory.getMessage(),
                                         chatHistory.getCreatedAt())).toList());
-    }
 
+    }
     @Transactional
     public void deletHistoryAndChatRoom(Long id){
         chatHistoryRepository.deleteBySender(id);
