@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class DiaryController {
+
+    @Value("${flask.api.url}")
+    private String flaskApiUrl;
 
     private final DiaryService diaryService;
 
@@ -47,7 +51,7 @@ public class DiaryController {
 
         log.info("[Diary Controller] write");
 
-        String flaskServiceUrl = "http://localhost:5000/tokenize";
+        String flaskServiceUrl = flaskApiUrl + "/tokenize";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

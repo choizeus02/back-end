@@ -34,3 +34,12 @@ spring:
 
 server:
   port: 9001
+
+
+flask:
+  api:
+    url: ${FLASK_API_URL:http://localhost:5000}
+
+kafka:
+  broker: ${KAFKA_BROKER:localhost:9092}
+
