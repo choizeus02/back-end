@@ -10,13 +10,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private static final String CORS_URL_PATTERN = "/**";
+
     private static final String CORS_URL = "http://localhost:5173";
+    private static final String CORS_URL2 = "http://frontend:5173";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping(CORS_URL_PATTERN)
                 .allowedHeaders("*")
-                .allowedOrigins(CORS_URL)
+                .allowedOrigins(CORS_URL,CORS_URL2)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true);
 
