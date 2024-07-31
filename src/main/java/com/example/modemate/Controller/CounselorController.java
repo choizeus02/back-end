@@ -162,7 +162,7 @@ public class CounselorController {
     })
     public ResponseEntity<Result<List<CounselorDto>>> searchCounselor(@RequestParam(value = "query", required = false) String search) {
 
-        log.info("[Counselot Controller] search " + search);
+        log.info("[Counselor Controller] search " + search);
 
         List<Counselor> counselor = counselorService.searchByNameOrCategory(search);
 

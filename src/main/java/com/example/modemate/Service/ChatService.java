@@ -36,6 +36,9 @@ public class ChatService {
 
     @Transactional
     public String createChatRoom(String myNickName, String yourNickName) {
+
+        log.info("[Chat Service] create chatRoom");
+
         User user = getUserByNickname(myNickName); //User에서 찾아야 하는거고
         User opponentUser = getUserByNickname(yourNickName); //Coordinator에서 찾아야 하는거고
 
@@ -53,6 +56,9 @@ public class ChatService {
     }
 
     public Long saveMessage(ChatMessage message) {
+
+        log.info("[Chat Service] save message");
+
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(message.getRoomid());
         User sender = getUserByNickname(message.getUser());
         String _message = message.getContent();
@@ -60,6 +66,9 @@ public class ChatService {
     }
     @Transactional
     public Long saveChatMessage(ChatRoom chatRoom, User sender, String message, LocalDateTime createdAt) {
+
+        log.info("[Chat Service] save chat message");
+
         ChatHistory chatHistory = ChatHistory.create(chatRoom, sender, message, createdAt);
         chatHistoryRepository.save(chatHistory);
         // 준형
@@ -68,22 +77,34 @@ public class ChatService {
     }
     @Transactional
     public ChatRoom create(User user, User opponentUser) {
+
+        log.info("[Chat Service] create");
+
         ChatRoom chatRoom = new ChatRoom(UUID.randomUUID().toString(), user, opponentUser);
         return chatRoom;
     }
 
 
     private Optional<ChatRoom> findChatRoom(User user, User opponentUser) {
+
+        log.info("[Chat Service] find chat room");
+
         return chatRoomRepository.findByUserAndOpponentUser(user, opponentUser);
     }
 
     public User getUserByNickname(String name) {
+
+        log.info("[Chat Service] get user by nickname");
+
         List<User> members = memberRepository.findByNickname(name);
         return members.isEmpty() ? null : members.get(0);
     }
 
     @Transactional
     public void readChat(Long chatid){
+
+        log.info("[Chat Service] read chat");
+
         ChatHistory chatHistory = chatHistoryRepository.findById(chatid).get();
         if(chatHistory != null){
             System.out.println("chatHistory = " + chatHistory);
