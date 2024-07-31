@@ -51,9 +51,9 @@ public class DiaryController {
 
         log.info("[Diary Controller] write");
 
-        String flaskServiceUrl = flaskApiUrl + "/tokenize";
+//        String flaskServiceUrl = flaskApiUrl + "/tokenize";
 
-//        String flaskServiceUrl = "http://localhost:5000/tokenize";
+        String flaskServiceUrl = "http://flask-ml:5000/tokenize";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
