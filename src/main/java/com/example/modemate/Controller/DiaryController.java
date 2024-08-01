@@ -1,5 +1,6 @@
 package com.example.modemate.Controller;
 
+import com.example.modemate.DTO.DiaryAnalysisDTO;
 import com.example.modemate.DTO.DiaryDTO;
 import com.example.modemate.Security.custom.CustomUserDetails;
 import com.example.modemate.Service.DiaryService;
@@ -46,7 +47,7 @@ public class DiaryController {
             @Parameter(name = "analyze", description = "분석", example = "100 -50"),
             @Parameter(name = "emotion", description = "감정", example = "[\"happy\", \"sad\"]"),
     })
-    public String writeDiary(@AuthenticationPrincipal CustomUserDetails userDetails,
+    public DiaryAnalysisDTO writeDiary(@AuthenticationPrincipal CustomUserDetails userDetails,
                                              @RequestBody DiaryDTO diaryDTO){
 
         log.info("[Diary Controller] write");
@@ -65,9 +66,15 @@ public class DiaryController {
         ResponseEntity<String> response = restTemplate.exchange(flaskServiceUrl, HttpMethod.POST, requestEntity, String.class);
 
         String analyze = response.getBody();
-        System.out.println(analyze);
-        diaryService.saveDiary(userDetails.getUsername(), analyze, diaryDTO);
-        return analyze;
+        String positivePoint = analyze.split(" ")[0];
+        String negativePoint = analyze.split(" ")[1];
+        DiaryAnalysisDTO newAnalyz = diaryService.calculation(positivePoint, negativePoint);
+
+
+
+        System.out.println(newAnalyz);
+        diaryService.saveDiary(userDetails.getUsername(), newAnalyz, diaryDTO);
+        return newAnalyz;
 
     }
     //일기 데이터 조회
