@@ -21,11 +21,26 @@ public class Diary {
 
     private String month;
 
+    public Diary(String month, String time, String content, String ana, String analysisMessage, String encouragementMessage, List<String> emotion, User user) {
+        this.month = month;
+        this.time = time;
+        this.content = content;
+        this.ana = ana;
+        this.analysisMessage = analysisMessage;
+        this.encouragementMessage = encouragementMessage;
+        this.emotion = emotion;
+        this.user = user;
+    }
+
     private String time;
 
     private String content;
 
     private String ana;
+
+    private String analysisMessage;
+
+    private String encouragementMessage;
 
     @ElementCollection
     @CollectionTable(name = "emotion", joinColumns =
@@ -36,13 +51,4 @@ public class Diary {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public Diary(String month, String time, String content, String analyze, List<String> emotion, User user) {
-        this.month = month;
-        this.time = time;
-        this.content = content;
-        this.ana = analyze;
-        this.emotion = emotion;
-        this.user = user;
-    }
 }
