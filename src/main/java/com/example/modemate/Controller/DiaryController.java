@@ -59,9 +59,14 @@ public class DiaryController {
         ResponseEntity<String> response = restTemplate.exchange(flaskServiceUrl, HttpMethod.POST, requestEntity, String.class);
 
         String analyze = response.getBody();
-        System.out.println(analyze);
-        diaryService.saveDiary(userDetails.getUsername(), analyze, diaryDTO);
-        return analyze;
+        String positivePoint = analyze.split(" ")[0];
+        String negativePoint = analyze.split(" ")[1];
+        String newAnalyz = diaryService.calculation(positivePoint, negativePoint);
+
+
+        System.out.println(newAnalyz);
+        diaryService.saveDiary(userDetails.getUsername(), newAnalyz, diaryDTO);
+        return newAnalyz;
 
     }
     //일기 데이터 조회
