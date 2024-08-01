@@ -1,5 +1,6 @@
 package com.example.modemate.Controller;
 
+import com.example.modemate.DTO.DiaryAnalysisDTO;
 import com.example.modemate.DTO.DiaryDTO;
 import com.example.modemate.Security.custom.CustomUserDetails;
 import com.example.modemate.Service.DiaryService;
@@ -42,7 +43,7 @@ public class DiaryController {
             @Parameter(name = "analyze", description = "분석", example = "100 -50"),
             @Parameter(name = "emotion", description = "감정", example = "[\"happy\", \"sad\"]"),
     })
-    public String writeDiary(@AuthenticationPrincipal CustomUserDetails userDetails,
+    public DiaryAnalysisDTO writeDiary(@AuthenticationPrincipal CustomUserDetails userDetails,
                                              @RequestBody DiaryDTO diaryDTO){
 
         log.info("[Diary Controller] write");
@@ -61,7 +62,7 @@ public class DiaryController {
         String analyze = response.getBody();
         String positivePoint = analyze.split(" ")[0];
         String negativePoint = analyze.split(" ")[1];
-        String newAnalyz = diaryService.calculation(positivePoint, negativePoint);
+        DiaryAnalysisDTO newAnalyz = diaryService.calculation(positivePoint, negativePoint);
 
 
         System.out.println(newAnalyz);
