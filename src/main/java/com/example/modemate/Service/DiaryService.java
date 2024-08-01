@@ -1,5 +1,6 @@
 package com.example.modemate.Service;
 
+import com.example.modemate.DTO.DiaryAnalysisDTO;
 import com.example.modemate.DTO.DiaryDTO;
 import com.example.modemate.Repository.DiaryRepository;
 import com.example.modemate.Repository.UserRepository;
@@ -24,13 +25,12 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
 
     @Transactional
-    public void saveDiary(String userName, String analyze, DiaryDTO diaryDTO){
+    public void saveDiary(String userName, DiaryAnalysisDTO analyze, DiaryDTO diaryDTO){
 
         log.info("[Diary Service] save");
 
         User user = userRepository.findByNickname1(userName);
-        diaryDTO.setAnalyze(analyze);
-        Diary diary = new Diary(diaryDTO.getMonth(), diaryDTO.getTime(), diaryDTO.getContent(), diaryDTO.getAnalyze(), diaryDTO.getEmotion(), user);
+        Diary diary = new Diary(diaryDTO.getMonth(), diaryDTO.getTime(), diaryDTO.getContent(), analyze.getScore(), analyze.getAnalysisResults(), analyze.getEncouragementMessage(), diaryDTO.getEmotion(), user);
         diaryRepository.save(diary);
     }
 
@@ -52,7 +52,7 @@ public class DiaryService {
         return diaryDTOList;
     }
 
-    public String calculation(String positivePoint, String negativePoint){
+    public DiaryAnalysisDTO calculation(String positivePoint, String negativePoint){
         int negativeScore = Math.abs(Integer.parseInt(negativePoint));
         int positiveScore = Integer.parseInt(positivePoint);
 
@@ -123,6 +123,7 @@ public class DiaryService {
             index = messages.size() - 1;
         }
         MessagePair selectedMessage = messages.get(index);
-        return result + " " + selectedMessage.getAnalysisMessage() + " " + selectedMessage.getEncouragementMessage();
+        DiaryAnalysisDTO diaryAnalysisDTO = new DiaryAnalysisDTO(result, selectedMessage.getAnalysisMessage(), selectedMessage.getEncouragementMessage());
+        return diaryAnalysisDTO;
     }
 }
