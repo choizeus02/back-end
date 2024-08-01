@@ -1,6 +1,7 @@
 package com.example.modemate.Controller;
 
 import com.example.modemate.DTO.*;
+import com.example.modemate.Repository.CounselorRepository;
 import com.example.modemate.Repository.ProgramRepository;
 import com.example.modemate.Repository.UserRepository;
 import com.example.modemate.Security.jwt.JwtUtil;
@@ -35,6 +36,7 @@ public class ProgramController {
     private final ProgramService programService;
     private final UserRepository userRepository;
     private final ProgramRepository programRepository;
+    private final CounselorRepository counselorRepository;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/enroll")
@@ -122,6 +124,7 @@ public class ProgramController {
         log.info("[Program Controller] program Details");
 
         Program program = programService.findProgram(programId);
+        Counselor counselor = program.getCounselor();
         List<ReviewDTO> reviewDto = program.getReviews().stream()
                 .map(review -> new ReviewDTO(review.getReviewText(), review.getRating()))
                 .collect(Collectors.toList());
@@ -132,7 +135,8 @@ public class ProgramController {
                 program.getPlace(),
                 program.getRating(),
                 program.getDetails(),
-                reviewDto
+                reviewDto,
+                counselor.getId()
         );
 
         return  new Result(programDetailsDto);
@@ -158,6 +162,7 @@ public class ProgramController {
         private float rating;
         private List<Details> details;
         private List<ReviewDTO> reviews;
+        private Long counselorId;
     }
 
     @Data
