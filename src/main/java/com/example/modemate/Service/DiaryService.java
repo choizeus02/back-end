@@ -53,6 +53,7 @@ public class DiaryService {
     }
 
     public DiaryAnalysisDTO calculation(String positivePoint, String negativePoint){
+
         int negativeScore = Math.abs(Integer.parseInt(negativePoint));
         int positiveScore = Integer.parseInt(positivePoint);
 
@@ -125,5 +126,6 @@ public class DiaryService {
         MessagePair selectedMessage = messages.get(index);
         DiaryAnalysisDTO diaryAnalysisDTO = new DiaryAnalysisDTO(result, selectedMessage.getAnalysisMessage(), selectedMessage.getEncouragementMessage());
         return diaryAnalysisDTO;
+
     }
 }
