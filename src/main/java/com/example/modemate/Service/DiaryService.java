@@ -46,6 +46,8 @@ public class DiaryService {
                         diary.getTime(),
                         diary.getContent(),
                         diary.getAna(),
+                        diary.getAnalysisMessage(),
+                        diary.getEncouragementMessage(),
                         diary.getEmotion()
                 ))
                 .collect(Collectors.toList());
