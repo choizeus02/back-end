@@ -55,6 +55,7 @@ public class DiaryService {
     }
 
     public DiaryAnalysisDTO calculation(String positivePoint, String negativePoint){
+
         int negativeScore = Math.abs(Integer.parseInt(negativePoint));
         int positiveScore = Integer.parseInt(positivePoint);
 
