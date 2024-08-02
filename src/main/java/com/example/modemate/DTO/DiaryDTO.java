@@ -22,14 +22,17 @@ public class DiaryDTO {
     private String time;
     private String content;
     private String analyze;
+    private String analysisMessage;
+    private String encouragementMessage;
     private List<String> emotion;
 
-    public DiaryDTO(String month, String time, String content, String analyze, List<String> emotion) {
+    public DiaryDTO(String month, String time, String content, String analyze, String analysisMessage, String encouragementMessage, List<String> emotion) {
         this.month = month;
         this.time = time;
         this.content = content;
         this.analyze = analyze;
+        this.analysisMessage = analysisMessage;
+        this.encouragementMessage = encouragementMessage;
         this.emotion = emotion;
     }
-
 }
