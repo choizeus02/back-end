@@ -46,6 +46,8 @@ public class DiaryService {
                         diary.getTime(),
                         diary.getContent(),
                         diary.getAna(),
+                        diary.getAnalysisMessage(),
+                        diary.getEncouragementMessage(),
                         diary.getEmotion()
                 ))
                 .collect(Collectors.toList());
@@ -126,6 +128,5 @@ public class DiaryService {
         MessagePair selectedMessage = messages.get(index);
         DiaryAnalysisDTO diaryAnalysisDTO = new DiaryAnalysisDTO(result, selectedMessage.getAnalysisMessage(), selectedMessage.getEncouragementMessage());
         return diaryAnalysisDTO;
-
     }
 }

@@ -71,7 +71,6 @@ public class DiaryController {
         DiaryAnalysisDTO newAnalyz = diaryService.calculation(positivePoint, negativePoint);
 
 
-
         System.out.println(newAnalyz);
         diaryService.saveDiary(userDetails.getUsername(), newAnalyz, diaryDTO);
         return newAnalyz;
