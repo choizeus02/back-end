@@ -26,8 +26,6 @@ import java.util.List;
 @Slf4j
 public class DiaryController {
 
-    @Value("${flask.api.url}")
-    private String flaskApiUrl;
 
     private final DiaryService diaryService;
 
@@ -55,6 +53,8 @@ public class DiaryController {
 //        String flaskServiceUrl = flaskApiUrl + "/tokenize";
 
         String flaskServiceUrl = "http://flask-ml:5000/tokenize";
+//        String flaskServiceUrl = "http://localhost:5001/tokenize";
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

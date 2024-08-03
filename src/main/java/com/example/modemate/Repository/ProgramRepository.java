@@ -13,4 +13,10 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query("SELECT p FROM Program p LEFT JOIN p.keyWord k WHERE p.name LIKE %:search% OR k.word LIKE %:search%")
     List<Program> findByNameOrKeyWord(@Param("search") String search);
 
+//    @Query("SELECT DISTINCT p FROM Program p " +
+//            "LEFT JOIN FETCH p.reviews " +
+//            "LEFT JOIN FETCH p.keyWord k " +
+//            "WHERE :search IS NULL OR p.name LIKE %:search% OR k.word LIKE %:search%")
+//    List<Program> findByNameOrKeyWord(@Param("search") String search);
+
 }
