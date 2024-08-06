@@ -58,8 +58,8 @@ public class DiaryController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        String jsonBody = "{\"text\":\"" + diaryDTO.getContent() + "\"}";
+        String content = diaryDTO.getContent().replace("\n", " ").replace("\r", " ");
+        String jsonBody = "{\"text\":\"" + content + "\"}";
         System.out.println(jsonBody);
         HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
 
