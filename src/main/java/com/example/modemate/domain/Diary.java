@@ -34,6 +34,7 @@ public class Diary {
 
     private String time;
 
+    @Lob
     private String content;
 
     private String ana;
