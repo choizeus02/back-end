@@ -21,6 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     private static final String CORS_URL6 = "http://52.78.55.94:5173";
 
+    private static final String CORS_URL7 = "http://116.121.184.204:5173";
 
 
 
@@ -28,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping(CORS_URL_PATTERN)
                 .allowedHeaders("*")
-                .allowedOrigins(CORS_URL,CORS_URL2,CORS_URL3,CORS_URL4,CORS_URL5,CORS_URL6)
+                .allowedOrigins(CORS_URL,CORS_URL2,CORS_URL3,CORS_URL4,CORS_URL5,CORS_URL6,CORS_URL7)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true);
 
