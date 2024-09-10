@@ -19,11 +19,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     private static final String CORS_URL5 = "http://moodmate.choizeus.com";
 
-    private static final String CORS_URL6 = "http://52.78.55.94:5173";
+//    private static final String CORS_URL6 = "http://52.78.55.94:5173";
 
-    private static final String CORS_URL7 = "http://116.121.184.204:5173";
+//    private static final String CORS_URL7 = "http://116.121.184.204:5173";
 
-    private static final String CORS_URL8 = "http://43.200.4.123:5173";
+//    private static final String CORS_URL8 = "http://43.200.4.123:5173";
 
 
 
